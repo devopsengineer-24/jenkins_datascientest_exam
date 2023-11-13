@@ -101,7 +101,7 @@ pipeline {
                 script {
                     // Deploy Casts DB
                     sh '''
-                    helm upgrade --install app castsdb --values=helmcharts/casts/castsdb/dev-values.yaml --namespace dev --create-namespace
+                    helm upgrade --install app helmcharts/casts/castsdb --values=helmcharts/casts/castsdb/dev-values.yaml --namespace dev --create-namespace
                     '''
                 }
                 script {
@@ -110,13 +110,13 @@ pipeline {
                     cp helmcharts/casts/castsapi/dev-values.yaml dev-values.yaml
                     cat dev-values.yaml
                     sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" dev-values.yaml
-                    helm upgrade --install app castsapi --values=dev-values.yaml --namespace dev --create-namespace
+                    helm upgrade --install app helmcharts/casts/castsapi --values=dev-values.yaml --namespace dev --create-namespace
                     '''
                 }
                 script {
                     // Deploy Movies DB
                     sh '''
-                    helm upgrade --install app moviesdb --values=helmcharts/movies/moviesdb/dev-values.yaml --namespace dev --create-namespace
+                    helm upgrade --install app helmcharts/movies/moviesdb --values=helmcharts/movies/moviesdb/dev-values.yaml --namespace dev --create-namespace
                     '''
                 }
                 script {
@@ -126,13 +126,13 @@ pipeline {
                     cp helmcharts/movies/moviesapi/dev-values.yaml dev-values.yaml
                     cat dev-values.yaml
                     sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" dev-values.yaml
-                    helm upgrade --install app moviesapi --values=dev-values.yaml --namespace dev --create-namespace
+                    helm upgrade --install app helmcharts/movies/moviesapi --values=dev-values.yaml --namespace dev --create-namespace
                     '''
                 }
                 script {
                     // Deploy NGINX
                     sh '''
-                    helm upgrade --install app nginx --values=helmcharts/nginx/dev-values.yaml --namespace dev --create-namespace
+                    helm upgrade --install app helmcharts/nginx --values=helmcharts/nginx/dev-values.yaml --namespace dev --create-namespace
                     '''
                 }
             }
