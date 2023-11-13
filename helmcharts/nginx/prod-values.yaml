@@ -1,2 +1,5 @@
 spec:
   replicas: 2
+
+service:
+  nodeport: 30104
