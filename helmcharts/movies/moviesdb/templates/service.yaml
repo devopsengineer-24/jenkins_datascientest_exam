@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: moviedb-service
+spec:
+  type: ClusterIP
+  selector:
+    app: moviedb
+  ports:
+  - name: http
+    port: 5432
+    targetPort: 5432
+    protocol: TCP

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: castdb-service
+spec:
+  type: ClusterIP
+  selector:
+    app: castdb
+  ports:
+  - name: http
+    port: 5432
+    targetPort: 5432
+    protocol: TCP

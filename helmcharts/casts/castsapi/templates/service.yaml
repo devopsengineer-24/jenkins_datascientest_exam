@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: castapi-service
+spec:
+  type: ClusterIP
+  selector:
+    app: castapi
+  ports:
+  - name: http
+    port: 8000
+    targetPort: 8000
+    protocol: TCP

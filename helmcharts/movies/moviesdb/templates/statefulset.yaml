@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: moviedb-statefulset
+  labels:
+    app: moviedb
+spec:
+  replicas: {{ .Values.spec.replicas }}
+  selector:
+    matchLabels:
+      app: moviedb
+  template:
+    metadata:
+      labels:
+        app: moviedb
+    spec:
+      containers:
+      - name: moviedb
+        image: postgres:12.1-alpine
+        envFrom:
+        - configMapRef:
+            name: moviedb-configmap
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data/
+          name: moviedb-persistentvolume
+      volumes:
+      - name: moviedb-persistentvolume
+        persistentVolumeClaim:
+          claimName: moviedb-persistentvolumeclaim

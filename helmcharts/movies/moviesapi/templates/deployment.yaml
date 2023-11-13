@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movieapi-deployment
+  labels:
+    app: movieapi
+spec:
+  replicas: {{ .Values.spec.replicas }}
+  selector:
+    matchLabels:
+      app: movieapi
+  template:
+    metadata:
+      labels:
+        app: movieapi
+    spec:
+      containers:
+      - name: movieapi
+        image: devops24engineer/movie-service:latest
+        envFrom:
+        - configMapRef:
+            name: movieapi-configmap
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - mountPath: /app/
+          name: movieapi-volume
+      volumes:
+      - name: movieapi-volume
+        hostPath:
+          path: /home/ubuntu/exam-jenkins/Jenkins_devops_exams/movie-service/

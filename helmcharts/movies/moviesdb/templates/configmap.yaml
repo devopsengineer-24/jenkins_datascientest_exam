@@ -1,0 +1,8 @@
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: moviedb-configmap 
+data:
+  POSTGRES_USER: movie_db_username
+  POSTGRES_PASSWORD: movie_db_password
+  POSTGRES_DB: movie_db_dev

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: castapi-deployment
+  labels:
+    app: castapi
+spec:
+  replicas: {{ .Values.spec.replicas }}
+  selector:
+    matchLabels:
+      app: castapi
+  template:
+    metadata:
+      labels:
+        app: castapi
+    spec:
+      containers:
+      - name: castapi
+        image: devops24engineer/cast-service:latest
+        envFrom:
+        - configMapRef:
+            name: castapi-configmap
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - mountPath: /app/
+          name: castapi-volume
+      volumes:
+      - name: castapi-volume
+        hostPath:
+          path: /home/ubuntu/exam-jenkins/Jenkins_devops_exams/cast-service/

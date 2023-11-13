@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: castdb-statefulset
+  labels:
+    app: castdb
+spec:
+  replicas: {{ .Values.spec.replicas }}
+  selector:
+    matchLabels:
+      app: castdb
+  template:
+    metadata:
+      labels:
+        app: castdb
+    spec:
+      containers:
+      - name: castdb
+        image: postgres:12.1-alpine
+        envFrom:
+        - configMapRef:
+            name: castdb-configmap
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data/
+          name: castdb-persistentvolume
+      volumes:
+      - name: castdb-persistentvolume
+        persistentVolumeClaim:
+          claimName: castdb-persistentvolumeclaim
