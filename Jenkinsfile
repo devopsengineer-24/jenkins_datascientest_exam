@@ -39,13 +39,13 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    docker run -d -p localhost:8001:8000 --name jenkins-castsapi $DOCKER_ID/$DOCKER_IMAGE_CASTS:$DOCKER_TAG
+                    docker run -d -p 8001:8000 --name jenkins-castsapi $DOCKER_ID/$DOCKER_IMAGE_CASTS:$DOCKER_TAG
                     sleep 10
                     '''
                 }
                 script {
                     sh '''
-                    docker run -d -p localhost:8002:8000 --name jenkins-moviesapi $DOCKER_ID/$DOCKER_IMAGE_MOVIES:$DOCKER_TAG
+                    docker run -d -p 8002:8000 --name jenkins-moviesapi $DOCKER_ID/$DOCKER_IMAGE_MOVIES:$DOCKER_TAG
                     sleep 10
                     '''
                 }
