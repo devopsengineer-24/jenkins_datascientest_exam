@@ -248,13 +248,6 @@ pipeline {
                 }
             }
             steps {
-                script {
-                    sh '''
-                    echo "##### - BRANCH NAME"
-                    echo $GIT_BRANCH
-                    echo "##### - BRANCH NAME"
-                    '''
-                }
                 timeout(time: 15, unit: "MINUTES") {
                     input message: 'Deploy in production ?', ok: 'Yes'
                 }
