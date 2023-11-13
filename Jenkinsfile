@@ -19,14 +19,16 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    docker rm -f jenkins-castsapi
+                    docker rm -f jenkins
+                    '''
+                    sh '''
                     docker build -t $DOCKER_ID/$DOCKER_IMAGE_CASTS:$DOCKER_TAG .
                     sleep 6
                     '''
                 }
                 script {
+                    // docker rm -f jenkins-moviesapi
                     sh '''
-                    docker rm -f jenkins-moviesapi
                     docker build -t $DOCKER_ID/$DOCKER_IMAGE_MOVIES:$DOCKER_TAG .
                     sleep 6
                     '''
