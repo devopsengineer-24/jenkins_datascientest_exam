@@ -249,7 +249,7 @@ pipeline {
                 script {
                     sh '''
                     echo "##### - BRANCH NAME"
-                    echo $BRANCH_NAME
+                    echo $GIT_BRANCH
                     echo "##### - BRANCH NAME"
                     '''
                 }
