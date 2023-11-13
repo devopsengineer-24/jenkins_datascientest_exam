@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: movieapi
-        image: devops24engineer/movie-service:latest
+        image: "devops24engineer/movie-service:{{ .Values.image.tag | default .Chart.AppVersion }}"
         envFrom:
         - configMapRef:
             name: movieapi-configmap

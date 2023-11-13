@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: castapi
-        image: devops24engineer/cast-service:latest
+        image: "devops24engineer/cast-service:{{ .Values.image.tag | default .Chart.AppVersion }}"
         envFrom:
         - configMapRef:
             name: castapi-configmap
