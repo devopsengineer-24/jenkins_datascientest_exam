@@ -244,7 +244,7 @@ pipeline {
             }
             steps {
                 when {
-                    ${GIT_BRANCH} == "origin/master"
+                    "${GIT_BRANCH}" == "origin/master"
                 }
                 script {
                     sh '''
