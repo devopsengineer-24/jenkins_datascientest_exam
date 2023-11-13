@@ -243,7 +243,9 @@ pipeline {
                 KUBECONFIG = credentials("config")
             }
             when {
-                "${GIT_BRANCH}" == "origin/master"
+                expression {
+                    env.GIT_BRANCH == "origin/master"
+                }
             }
             steps {
                 script {
