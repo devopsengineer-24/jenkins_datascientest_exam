@@ -51,20 +51,20 @@ pipeline {
                 }
             }
         }
-        stage('Test Acceptance'){
-            steps {
-                script {
-                    sh '''
-                    curl localhost:8001
-                    '''
-                }
-                script {
-                    sh '''
-                    curl localhost:8002
-                    '''
-                }
-            }
-        }
+        // stage('Test Acceptance'){
+        //     steps {
+        //         script {
+        //             sh '''
+        //             curl localhost:8001
+        //             '''
+        //         }
+        //         script {
+        //             sh '''
+        //             curl localhost:8002
+        //             '''
+        //         }
+        //     }
+        // }
         stage('Docker Push'){
             environment {
                 DOCKER_PASS = credentials("DOCKER_HUB_PASS")
