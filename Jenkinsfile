@@ -243,26 +243,18 @@ pipeline {
                 KUBECONFIG = credentials("config")
             }
             steps {
-                script {
-                    sh '''
-                    echo "DEPLOY - PROD START"
-                    '''
-                }
                 // when {
                 //     env.BRANCH_NAME == "master"
                 // }
-                // script {
-                //     sh '''
-                //     echo "This is Branch Master"
-                //     '''
-                // }
-                timeout(time: 15, unit: "MINUTES") {
-                    input message: 'Deploy in production ?', ok: 'Yes'
-                }
                 script {
                     sh '''
-                    echo "Ok to deploy in production"
+                    echo "##### - BRANCH NAME"
+                    echo $BRANCH_NAME
+                    echo "##### - BRANCH NAME"
                     '''
+                }
+                timeout(time: 15, unit: "MINUTES") {
+                    input message: 'Deploy in production ?', ok: 'Yes'
                 }
                 script {
                     // Add Kubernetes config
