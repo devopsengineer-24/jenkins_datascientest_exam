@@ -243,9 +243,9 @@ pipeline {
                 KUBECONFIG = credentials("config")
             }
             steps {
-                // when {
-                //     env.BRANCH_NAME == "master"
-                // }
+                when {
+                    env.GIT_BRANCH == "origin/master"
+                }
                 script {
                     sh '''
                     echo "##### - BRANCH NAME"
