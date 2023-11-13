@@ -2,3 +2,5 @@ env
 __pycache__
 .vscode
 .idea
+github.txt
+docker_hub.txt

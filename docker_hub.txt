@@ -1,0 +1,8 @@
+# Lien vers l'image movie-service
+
+https://hub.docker.com/r/devops24engineer/movie-service
+
+# Lien vers l'image cast-service
+
+https://hub.docker.com/r/devops24engineer/cast-service
+

@@ -237,6 +237,65 @@ pipeline {
                     '''
                 }
             }
-        }        
+        }
+        stage('Deploy - Prod'){
+            environment {
+                KUBECONFIG = credentials("config")
+            }
+            steps {
+                when {
+                    branch 'master'
+                }
+                timeout(time: 15, unit: "MINUTES") {
+                    input message: 'Deploy in production ?', ok: 'Yes'
+                }
+                script {
+                    // Add Kubernetes config
+                    sh '''
+                    rm -Rf .kube
+                    mkdir .kube
+                    ls
+                    cat $KUBECONFIG > .kube/config
+                    '''
+                }
+                script {
+                    // Deploy Casts DB
+                    sh '''
+                    helm upgrade --install app helmcharts/casts/castsdb --values=helmcharts/casts/castsdb/prod-values.yaml --namespace prod --create-namespace
+                    '''
+                }
+                script {
+                    // Deploy Casts API
+                    sh '''
+                    cp helmcharts/casts/castsapi/prod-values.yaml prod-values.yaml
+                    cat prod-values.yaml
+                    sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" prod-values.yaml
+                    helm upgrade --install app helmcharts/casts/castsapi --values=prod-values.yaml --namespace prod --create-namespace
+                    '''
+                }
+                script {
+                    // Deploy Movies DB
+                    sh '''
+                    helm upgrade --install app helmcharts/movies/moviesdb --values=helmcharts/movies/moviesdb/prod-values.yaml --namespace prod --create-namespace
+                    '''
+                }
+                script {
+                    // Deploy Movies API
+                    sh '''
+                    rm prod-values.yaml
+                    cp helmcharts/movies/moviesapi/prod-values.yaml prod-values.yaml
+                    cat prod-values.yaml
+                    sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" prod-values.yaml
+                    helm upgrade --install app helmcharts/movies/moviesapi --values=prod-values.yaml --namespace prod --create-namespace
+                    '''
+                }
+                script {
+                    // Deploy NGINX
+                    sh '''
+                    helm upgrade --install app helmcharts/nginx --values=helmcharts/nginx/prod-values.yaml --namespace prod --create-namespace
+                    '''
+                }
+            }
+        }      
     }
 }
