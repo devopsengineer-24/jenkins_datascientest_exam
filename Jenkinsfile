@@ -19,12 +19,14 @@ pipeline {
             steps {
                 script {
                     sh '''
+                    cd Jenkins_devops_exams/cast-service/
                     docker build -t $DOCKER_ID/$DOCKER_IMAGE_CASTS:$DOCKER_TAG .
                     sleep 6
                     '''
                 }
                 script {
                     sh '''
+                    cd Jenkins_devops_exams/movie-service/
                     docker build -t $DOCKER_ID/$DOCKER_IMAGE_MOVIES:$DOCKER_TAG .
                     sleep 6
                     '''
