@@ -19,6 +19,7 @@ pipeline {
             steps {
                 script {
                     sh '''
+                    docker rm -f jenkins-castsapi
                     cd Jenkins_devops_exams/cast-service/
                     docker build -t $DOCKER_ID/$DOCKER_IMAGE_CASTS:$DOCKER_TAG .
                     sleep 6
@@ -26,6 +27,7 @@ pipeline {
                 }
                 script {
                     sh '''
+                    docker rm -f jenkins-moviesapi
                     cd Jenkins_devops_exams/movie-service/
                     docker build -t $DOCKER_ID/$DOCKER_IMAGE_MOVIES:$DOCKER_TAG .
                     sleep 6
