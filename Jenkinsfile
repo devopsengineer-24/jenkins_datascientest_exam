@@ -242,10 +242,10 @@ pipeline {
             environment {
                 KUBECONFIG = credentials("config")
             }
+            when {
+                env.GIT_BRANCH == "origin/master"
+            }
             steps {
-                when {
-                    "${GIT_BRANCH}" == "origin/master"
-                }
                 script {
                     sh '''
                     echo "##### - BRANCH NAME"
