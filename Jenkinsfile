@@ -132,131 +132,111 @@ pipeline {
                 }
             }
         }
-        // stage('Deploy - QA'){
-        //     environment {
-        //         KUBECONFIG = credentials("config")
-        //     }
-        //     steps {
-        //         script {
-        //             // Add Kubernetes config
-        //             sh '''
-        //             rm -Rf .kube
-        //             mkdir .kube
-        //             ls
-        //             cat $KUBECONFIG > .kube/config
-        //             '''
-        //         }
-        //     }
-        //     steps {
-        //         script {
-        //             // Deploy Casts DB
-        //             sh '''
-        //             helm upgrade --install app castsdb --values=helmcharts/casts/castsdb/qa-values.yaml --namespace qa --create-namespace
-        //             '''
-        //         }
-        //     }
-        //     steps {
-        //         script {
-        //             // Deploy Casts API
-        //             sh '''
-        //             cp helmcharts/casts/castsapi/qa-values.yaml qa-values.yaml
-        //             cat qa-values.yaml
-        //             sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" qa-values.yaml
-        //             helm upgrade --install app castsapi --values=qa-values.yaml --namespace qa --create-namespace
-        //             '''
-        //         }
-        //     }
-        //     steps {
-        //         script {
-        //             // Deploy Movies DB
-        //             sh '''
-        //             helm upgrade --install app moviesdb --values=helmcharts/movies/moviesdb/qa-values.yaml --namespace qa --create-namespace
-        //             '''
-        //         }
-        //     }
-        //     steps {
-        //         script {
-        //             // Deploy Movies API
-        //             sh '''
-        //             rm qa-values.yaml
-        //             cp helmcharts/movies/moviesapi/qa-values.yaml qa-values.yaml
-        //             cat qa-values.yaml
-        //             sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" qa-values.yaml
-        //             helm upgrade --install app moviesapi --values=qa-values.yaml --namespace qa --create-namespace
-        //             '''
-        //         }
-        //     }
-        //     steps {
-        //         script {
-        //             // Deploy NGINX
-        //             sh '''
-        //             helm upgrade --install app nginx --values=helmcharts/nginx/qa-values.yaml --namespace qa --create-namespace
-        //             '''
-        //         }
-        //     }
-        // }
-        // stage('Deploy - Staging'){
-        //     environment {
-        //         KUBECONFIG = credentials("config")
-        //     }
-        //     steps {
-        //         script {
-        //             // Add Kubernetes config
-        //             sh '''
-        //             rm -Rf .kube
-        //             mkdir .kube
-        //             ls
-        //             cat $KUBECONFIG > .kube/config
-        //             '''
-        //         }
-        //     }
-        //     steps {
-        //         script {
-        //             // Deploy Casts DB
-        //             sh '''
-        //             helm upgrade --install app castsdb --values=helmcharts/casts/castsdb/stag-values.yaml --namespace staging --create-namespace
-        //             '''
-        //         }
-        //     }
-        //     steps {
-        //         script {
-        //             // Deploy Casts API
-        //             sh '''
-        //             cp helmcharts/casts/castsapi/stag-values.yaml stag-values.yaml
-        //             cat stag-values.yaml
-        //             sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" stag-values.yaml
-        //             helm upgrade --install app castsapi --values=stag-values.yaml --namespace staging --create-namespace
-        //             '''
-        //         }
-        //     }
-        //     steps {
-        //         script {
-        //             // Deploy Movies DB
-        //             sh '''
-        //             helm upgrade --install app moviesdb --values=helmcharts/movies/moviesdb/stag-values.yaml --namespace staging --create-namespace
-        //             '''
-        //         }
-        //     }
-        //     steps {
-        //         script {
-        //             // Deploy Movies API
-        //             sh '''
-        //             rm stag-values.yaml
-        //             cp helmcharts/movies/moviesapi/stag-values.yaml stag-values.yaml
-        //             cat stag-values.yaml
-        //             sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" stag-values.yaml
-        //             helm upgrade --install app moviesapi --values=stag-values.yaml --namespace staging --create-namespace
-        //             '''
-        //         }
-        //     }
-        //     steps {
-        //         script {
-        //             // Deploy NGINX
-        //             sh '''
-        //             helm upgrade --install app nginx --values=helmcharts/nginx/stag-values.yaml --namespace staging --create-namespace
-        //             '''
-        //         }
-        //     }
-        // }
+        stage('Deploy - QA'){
+            environment {
+                KUBECONFIG = credentials("config")
+            }
+            steps {
+                script {
+                    // Add Kubernetes config
+                    sh '''
+                    rm -Rf .kube
+                    mkdir .kube
+                    ls
+                    cat $KUBECONFIG > .kube/config
+                    '''
+                }
+                script {
+                    // Deploy Casts DB
+                    sh '''
+                    helm upgrade --install app helmcharts/casts/castsdb --values=helmcharts/casts/castsdb/qa-values.yaml --namespace qa --create-namespace
+                    '''
+                }
+                script {
+                    // Deploy Casts API
+                    sh '''
+                    cp helmcharts/casts/castsapi/qa-values.yaml qa-values.yaml
+                    cat qa-values.yaml
+                    sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" qa-values.yaml
+                    helm upgrade --install app helmcharts/casts/castsapi --values=qa-values.yaml --namespace qa --create-namespace
+                    '''
+                }
+                script {
+                    // Deploy Movies DB
+                    sh '''
+                    helm upgrade --install app helmcharts/movies/moviesdb --values=helmcharts/movies/moviesdb/qa-values.yaml --namespace qa --create-namespace
+                    '''
+                }
+                script {
+                    // Deploy Movies API
+                    sh '''
+                    rm qa-values.yaml
+                    cp helmcharts/movies/moviesapi/qa-values.yaml qa-values.yaml
+                    cat qa-values.yaml
+                    sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" qa-values.yaml
+                    helm upgrade --install app helmcharts/movies/moviesapi --values=qa-values.yaml --namespace qa --create-namespace
+                    '''
+                }
+                script {
+                    // Deploy NGINX
+                    sh '''
+                    helm upgrade --install app helmcharts/nginx --values=helmcharts/nginx/qa-values.yaml --namespace qa --create-namespace
+                    '''
+                }
+            }
+        }
+        stage('Deploy - Staging'){
+            environment {
+                KUBECONFIG = credentials("config")
+            }
+            steps {
+                script {
+                    // Add Kubernetes config
+                    sh '''
+                    rm -Rf .kube
+                    mkdir .kube
+                    ls
+                    cat $KUBECONFIG > .kube/config
+                    '''
+                }
+                script {
+                    // Deploy Casts DB
+                    sh '''
+                    helm upgrade --install app helmcharts/casts/castsdb --values=helmcharts/casts/castsdb/stag-values.yaml --namespace staging --create-namespace
+                    '''
+                }
+                script {
+                    // Deploy Casts API
+                    sh '''
+                    cp helmcharts/casts/castsapi/stag-values.yaml stag-values.yaml
+                    cat stag-values.yaml
+                    sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" stag-values.yaml
+                    helm upgrade --install app helmcharts/casts/castsapi --values=stag-values.yaml --namespace staging --create-namespace
+                    '''
+                }
+                script {
+                    // Deploy Movies DB
+                    sh '''
+                    helm upgrade --install app helmcharts/movies/moviesdb --values=helmcharts/movies/moviesdb/stag-values.yaml --namespace staging --create-namespace
+                    '''
+                }
+                script {
+                    // Deploy Movies API
+                    sh '''
+                    rm stag-values.yaml
+                    cp helmcharts/movies/moviesapi/stag-values.yaml stag-values.yaml
+                    cat stag-values.yaml
+                    sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" stag-values.yaml
+                    helm upgrade --install app helmcharts/movies/moviesapi --values=stag-values.yaml --namespace staging --create-namespace
+                    '''
+                }
+                script {
+                    // Deploy NGINX
+                    sh '''
+                    helm upgrade --install app helmcharts/nginx --values=helmcharts/nginx/stag-values.yaml --namespace staging --create-namespace
+                    '''
+                }
+            }
+        }        
     }
 }
