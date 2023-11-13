@@ -248,14 +248,14 @@ pipeline {
                     echo "DEPLOY - PROD START"
                     '''
                 }
-                // when {
-                //     branch 'master'
-                // }
-                // script {
-                //     sh '''
-                //     echo "This is Branch Master"
-                //     '''
-                // }
+                when {
+                    env.BRANCH_NAME == "master"
+                }
+                script {
+                    sh '''
+                    echo "This is Branch Master"
+                    '''
+                }
                 timeout(time: 15, unit: "MINUTES") {
                     input message: 'Deploy in production ?', ok: 'Yes'
                 }
