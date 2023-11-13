@@ -39,32 +39,27 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    docker run -d -p 8001:8000 --name jenkins-castsapi $DOCKER_ID/$DOCKER_IMAGE_CASTS:$DOCKER_TAG
-                    sleep 10
-                    '''
-                }
-                script {
-                    sh '''
-                    docker run -d -p 8002:8000 --name jenkins-moviesapi $DOCKER_ID/$DOCKER_IMAGE_MOVIES:$DOCKER_TAG
+                    cd Jenkins_devops_exams/
+                    docker-compose up -d
                     sleep 10
                     '''
                 }
             }
         }
-        // stage('Test Acceptance'){
-        //     steps {
-        //         script {
-        //             sh '''
-        //             curl localhost:8001
-        //             '''
-        //         }
-        //         script {
-        //             sh '''
-        //             curl localhost:8002
-        //             '''
-        //         }
-        //     }
-        // }
+        stage('Test Acceptance'){
+            steps {
+                script {
+                    sh '''
+                    curl localhost:8080/api/v1/casts/docs
+                    '''
+                }
+                script {
+                    sh '''
+                    curl localhost:8080/api/v1/movies/docs
+                    '''
+                }
+            }
+        }
         stage('Docker Push'){
             environment {
                 DOCKER_PASS = credentials("DOCKER_HUB_PASS")
